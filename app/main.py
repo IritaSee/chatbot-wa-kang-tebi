@@ -18,7 +18,10 @@ async def webhook(request: Request):
     sender = payload.get("sender", "")
     message = payload.get("message", "")
 
+    print(f"[webhook] terima pesan dari Fonnte -> sender={sender!r} message={message!r} raw={payload}")
+
     if not sender or not message:
+        print("[webhook] payload gak lengkap (sender/message kosong), skip")
         return {"status": "ignored"}
 
     faqs = faq_store.load_faqs()
