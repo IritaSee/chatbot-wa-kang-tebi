@@ -11,6 +11,12 @@ os.environ["DB_PATH"] = os.path.join(tempfile.mkdtemp(), "test_log.db")
 
 from app import config, handler, matcher  # noqa: E402
 
+# app.config mungkin udah ke-import duluan (mis. test_faq_seed.py di-load lebih
+# dulu sama pytest), jadi DB_PATH module-level attr-nya udah ke-freeze ke default
+# sebelum env var di atas ke-set. Force ulang di sini biar test ini gak numpuk
+# data ke data/conversation_log.db beneran.
+config.DB_PATH = os.environ["DB_PATH"]
+
 FAQS = [
     {"id": "TA-001", "category": "tugas_akhir", "trigger_keywords": ["jadwal sidang", "sidang ta"],
      "answer": "Jadwal sidang ada di link.", "media_url": "https://contoh.ac.id/jadwal-sidang", "active": True},

@@ -27,22 +27,26 @@ Tanpa `FONNTE_TOKEN`, balasan cuma diprint ke stdout (gak beneran dikirim).
 python tests/test_handler.py
 ```
 
-## Deploy ke Fly.io
+## Deploy ke Vercel
+
+`service-account.json` di-gitignore, gak ikut ke-deploy lewat repo. Set project
+env vars di dashboard Vercel (Settings → Environment Variables):
+
+- `FONNTE_TOKEN`, `GOOGLE_SHEET_ID`, `GOOGLE_SHEET_WORKSHEET`
+- `GOOGLE_SERVICE_ACCOUNT_JSON` — isi JSON service account langsung sebagai
+  string (satu baris, isi file JSON apa adanya)
 
 ```bash
-fly launch --no-deploy   # pakai fly.toml yang sudah ada
-fly volumes create kang_tebi_data --size 1
-
-# service-account.json di-gitignore, gak ikut ke-deploy lewat repo.
-# Set isinya langsung sebagai secret (satu baris, isi file JSON apa adanya):
-fly secrets set GOOGLE_SERVICE_ACCOUNT_JSON="$(cat service-account.json)"
-fly secrets set FONNTE_TOKEN=xxx GOOGLE_SHEET_ID=xxx GOOGLE_SHEET_WORKSHEET=FAQ
-
-fly deploy
+vercel deploy --prod
 ```
 
 `GOOGLE_SERVICE_ACCOUNT_JSON` (isi JSON langsung) dipakai kalau ada; kalau kosong,
 fallback ke `GOOGLE_SERVICE_ACCOUNT_FILE` (path file, buat dev lokal aja).
+
+SQLite log/handover disimpan di `DB_PATH` (default `data/conversation_log.db`);
+di Vercel filesystem-nya read-only kecuali `/tmp`, jadi `app/logger.py` otomatis
+fallback ke `/tmp` kalau path default gak writable. Catatan: `/tmp` ephemeral,
+reset tiap cold start/redeploy — diterima buat fase 1.
 
 ## Setup Google Sheets FAQ
 

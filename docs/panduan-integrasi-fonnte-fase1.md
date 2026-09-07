@@ -109,7 +109,7 @@ Response gagal (`status: false`) punya `reason` yang berguna buat logging — be
 - [ ] Token disimpan di environment variable, bukan di kode
 - [ ] Endpoint `/webhook` udah bisa terima & log payload Fonnte (test dulu pakai ngrok/tunnel lokal sebelum deploy penuh)
 - [ ] Endpoint kirim balasan udah ditest kirim ke nomor sendiri dulu sebelum dipakai buat mahasiswa
-- [ ] Webhook URL di dashboard Fonnte diisi setelah backend live di Fly.io
+- [ ] Webhook URL di dashboard Fonnte diisi setelah backend live di Vercel
 
 ## Referensi
 

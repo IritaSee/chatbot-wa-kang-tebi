@@ -66,10 +66,10 @@ Fallback log ini penting dijadiin bahan review berkala — dari situ kelihatan p
 
 - **Gateway**: Fonnte — lebih simpel karena gak perlu urus koneksi WA sendiri.
 - **Bahasa/framework**: Python + FastAPI — dipilih biar orkestrasinya "beneran" dari awal, gak perlu nulis ulang pas migrasi ke fase 2 (LLM+RAG).
-- **Hosting**: **Vercel** (serverless functions, Python runtime). Awalnya coba Fly.io tapi trial minta kartu kredit buat lepas limit 5 menit/boot, jadi pindah ke Vercel yang gratis buat skala PoC ini.
+- **Hosting**: **Vercel** (serverless functions, Python runtime) — gratis buat skala PoC ini.
 - **Matching**: `rapidfuzz` — skalanya 0-100, makin tinggi makin mirip, jadi threshold 60-70% langsung kepake tanpa perlu konversi.
 - **Storage FAQ**: Google Sheets, diakses lewat Sheets API v4 (service account) — di Python bisa pakai library `gspread` biar lebih ringkas dari raw API calls.
-- **Storage log**: SQLite, `DB_PATH` diarahkan ke `/tmp` (satu-satunya folder writable di Vercel serverless). **Keputusan sadar fase 1**: `/tmp` ephemeral, reset tiap cold start/redeploy — jadi conversation log & handover state (fallback streak, status handover 24 jam) bisa ke-reset sendiri. Diterima buat PoC; kalau fase 2 butuh state beneran persisten, ganti ke DB eksternal (mis. Turso/Supabase) atau balik ke Fly.io + volume.
+- **Storage log**: SQLite. Filesystem Vercel read-only kecuali `/tmp`, jadi `app/logger.py` otomatis fallback ke `/tmp` kalau `DB_PATH` default gak writable. **Keputusan sadar fase 1**: `/tmp` ephemeral, reset tiap cold start/redeploy — jadi conversation log & handover state (fallback streak, status handover 24 jam) bisa ke-reset sendiri. Diterima buat PoC; kalau fase 2 butuh state beneran persisten, ganti ke DB eksternal (mis. Turso/Supabase).
 
 ## 5. Format balasan & human handover
 
@@ -96,5 +96,5 @@ Mekanisme handover:
 - [x] Tentukan threshold matching → **60-70%**
 - [ ] Kumpulkan daftar FAQ awal dari admin prodi (jadwal, syarat, kontak) — lagi dikumpulin, disimpan di Google Sheets
 - [x] Desain format balasan & fallback (header identitas + mekanisme handover) — lihat bagian 5
-- [x] Finalisasi tempat hosting → **Vercel** (Python + FastAPI serverless, pindah dari Fly.io karena trial minta kartu kredit)
+- [x] Finalisasi tempat hosting → **Vercel** (Python + FastAPI serverless)
 - [x] Siapkan akun Vercel + deploy — SQLite log/handover pakai `DB_PATH=/tmp/...` (ephemeral, diterima buat fase 1, lihat bagian 4)
