@@ -34,11 +34,23 @@ def hash_number(wa_number: str) -> str:
     return hashlib.sha256(wa_number.encode("utf-8")).hexdigest()
 
 
-def _connect() -> sqlite3.Connection:
-    os.makedirs(os.path.dirname(config.DB_PATH) or ".", exist_ok=True)
-    conn = sqlite3.connect(config.DB_PATH)
+def _open(path: str) -> sqlite3.Connection:
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    conn = sqlite3.connect(path)
     conn.executescript(_SCHEMA)
     return conn
+
+
+def _connect() -> sqlite3.Connection:
+    """Filesystem serverless (mis. Vercel) sering read-only kecuali /tmp. Coba
+    DB_PATH biasa dulu; kalau gagal (OSError, termasuk sqlite "unable to open
+    database file"), fallback ke /tmp. /tmp ephemeral, tapi lebih baik daripada
+    bot gak bisa jawab sama sekali."""
+    try:
+        return _open(config.DB_PATH)
+    except (sqlite3.OperationalError, OSError):
+        fallback_path = os.path.join("/tmp", os.path.basename(config.DB_PATH))
+        return _open(fallback_path)
 
 
 def log_interaction(
