@@ -1,18 +1,29 @@
-app = "kang-tebi-bot"
-primary_region = "sin"
+# fly.toml app configuration file generated for chatbot-wa-kang-tebi on 2026-09-07T09:35:22Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'chatbot-wa-kang-tebi'
+primary_region = 'sin'
 
 [build]
 
 [env]
-  DB_PATH = "/data/conversation_log.db"
+  DB_PATH = '/data/conversation_log.db'
 
-[mounts]
-  source = "kang_tebi_data"
-  destination = "/data"
+[[mounts]]
+  source = 'kang_tebi_data'
+  destination = '/data'
 
 [http_service]
-  internal_port = 8000
+  internal_port = 8080
   force_https = true
-  auto_stop_machines = false
+  auto_stop_machines = 'off'
   auto_start_machines = true
   min_machines_running = 1
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 256
