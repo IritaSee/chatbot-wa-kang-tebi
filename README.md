@@ -1,7 +1,5 @@
 # Kang Tebi — Bot WA Prodi (Fase 1: FAQ handler)
 
-Implementasi sesuai `docs/arsitektur-skema-fase1-bot-wa-prodi.md`.
-
 ## Struktur
 
 - `app/main.py` — FastAPI app, endpoint `POST /webhook` (dipanggil Fonnte).

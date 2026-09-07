@@ -1,32 +1,333 @@
 [
   {
-    "id": "faq-001",
-    "category": "jadwal",
-    "trigger_keywords": ["jadwal", "kapan daftar", "jadwal akademik", "kalender akademik"],
-    "question_examples": ["Jadwal akademik kapan ya?", "Kapan mulai UAS?"],
-    "answer": "Jadwal akademik semester ini bisa dicek di link resmi prodi: https://contoh.ac.id/jadwal-akademik",
-    "media_url": "",
+    "id": "TA-001",
+    "category": "tugas_akhir",
+    "trigger_keywords": [
+      "jadwal sidang",
+      "sidang ta",
+      "sidang tugas akhir",
+      "kapan sidang ta"
+    ],
+    "question_examples": [
+      "Kapan jadwal sidang TA?",
+      "Jadwal sidang tugas akhir Agustus kapan?",
+      "Min, sidang TA bulan ini kapan ya?",
+      "Info jadwal sidang TA dong",
+      "Ada jadwal sidang TA terbaru gak?"
+    ],
+    "answer": "Ini jadwal Sidang Tugas Akhir Periode Agustus 2026, cek link di bawah ya.",
+    "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/IQAr8b4TwHvyR7BI2AsaourDAVSTfIcUt8mmFbbJukiIhK8?e=5oburM",
     "active": true,
-    "last_updated": "2026-07-09"
+    "last_updated": "2026-09-07"
   },
   {
-    "id": "faq-002",
-    "category": "syarat_pendaftaran",
-    "trigger_keywords": ["syarat", "daftar", "pendaftaran", "syarat daftar"],
-    "question_examples": ["Syarat pendaftaran apa aja?", "Cara daftar gimana?"],
-    "answer": "Syarat pendaftaran: (1) fotokopi ijazah, (2) transkrip nilai, (3) pas foto. Detail lengkap: https://contoh.ac.id/syarat-daftar",
-    "media_url": "",
+    "id": "TA-002",
+    "category": "tugas_akhir",
+    "trigger_keywords": [
+      "sop sidang ta",
+      "sop pra sidang",
+      "sop pasca sidang",
+      "prosedur sidang ta"
+    ],
+    "question_examples": [
+      "SOP sidang TA gimana?",
+      "Ada SOP pra pasca sidang TA gak?",
+      "Sebelum sidang TA harus ngapain aja?",
+      "Setelah sidang TA prosesnya gimana?",
+      "Alur sidang TA dari awal sampai akhir gimana?"
+    ],
+    "answer": "Ini SOP Pra & Pasca Sidang TA buat mahasiswa.",
+    "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/IQAMAQjq-ZnnT78oL7Sb3YyfAQBDOYBOfLwTWDA-rX0Rey8?e=ESvAiN",
     "active": true,
-    "last_updated": "2026-07-09"
+    "last_updated": "2026-09-07"
   },
   {
-    "id": "faq-003",
+    "id": "TA-003",
+    "category": "tugas_akhir",
+    "trigger_keywords": [
+      "panduan ta",
+      "panduan tugas akhir",
+      "pedoman ta"
+    ],
+    "question_examples": [
+      "Ada panduan tugas akhir gak?",
+      "Gimana format tugas akhir?",
+      "Format penulisan TA gimana ya?",
+      "Template tugas akhir ada gak?",
+      "Aturan penulisan skripsi/TA gimana?"
+    ],
+    "answer": "Ini Panduan Tugas Akhir lengkapnya.",
+    "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/EVjky-LKIWpMomDgjPihRxsBBlx_Ncz99AZW1oi2F2y5zg?e=0UtxI4",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "TA-004",
+    "category": "tugas_akhir",
+    "trigger_keywords": [
+      "ethical clearance",
+      "ec",
+      "surat edaran ec"
+    ],
+    "question_examples": [
+      "Ethical clearance itu apa?",
+      "Gimana cara pengajuan EC?",
+      "EC wajib buat semua TA gak?",
+      "Syarat ethical clearance apa aja?",
+      "Kak, EC itu perlu buat penelitian apa aja?"
+    ],
+    "answer": "Ini Surat Edaran Penggunaan Ethical Clearance (EC).",
+    "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/EUmLPldRYbNCsT8Qq2LnZLABy2SCpt8HQYmqOQSF6YTVlw?e=03lBej",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "TA-005",
+    "category": "tugas_akhir",
+    "trigger_keywords": [
+      "katalog capstone",
+      "capstone genap"
+    ],
+    "question_examples": [
+      "Ada katalog capstone gak?",
+      "Contoh tugas akhir capstone semester genap?",
+      "Mau liat contoh-contoh capstone dong",
+      "Katalog capstone genap 2024/2025 dimana?"
+    ],
+    "answer": "Ini Katalog Capstone Desain TB Semester Genap 2024/2025.",
+    "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/EWeaM3057BJDuHFtLIZ_wAUB5RneAJBbhr2g-8B67VqL3A?e=VDywzg",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "TA-006",
+    "category": "tugas_akhir",
+    "trigger_keywords": [
+      "katalog capstone ganjil"
+    ],
+    "question_examples": [
+      "Katalog capstone semester ganjil ada gak?",
+      "Contoh capstone semester ganjil dimana?",
+      "Mau liat capstone angkatan sebelumnya"
+    ],
+    "answer": "Ini Katalog Capstone Desain TB Semester Ganjil 2024/2025.",
+    "media_url": "http://bit.ly/KatalogCDTBGanjil2425",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "SPR-001",
+    "category": "sempro",
+    "trigger_keywords": [
+      "sop sempro",
+      "pra sempro",
+      "pasca sempro"
+    ],
+    "question_examples": [
+      "SOP sempro gimana?",
+      "Ada SOP pra pasca sempro gak?",
+      "Syarat sebelum sempro apa aja?",
+      "Setelah sempro ngapain lagi?",
+      "Alur seminar proposal gimana?"
+    ],
+    "answer": "Ini SOP Mahasiswa Pra & Pasca Sempro TA Semester Ganjil 2025/2026.",
+    "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/IQAV2nZaFVvRRaNB0toExh2eAajvxwfSMrF1G1gIs4oMttk?e=1xCMac",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "KP-001",
+    "category": "kerja_praktik",
+    "trigger_keywords": [
+      "panduan kp",
+      "kerja praktik",
+      "panduan kerja praktik"
+    ],
+    "question_examples": [
+      "Ada panduan kerja praktik gak?",
+      "Gimana syarat KP?",
+      "KP itu wajib gak sih?",
+      "Cara ngajuin kerja praktik gimana?",
+      "Panduan magang/KP dimana?"
+    ],
+    "answer": "Ini Panduan Kerja Praktik (KP).",
+    "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/ERlnxHF-kRZLsE_LpkcZY8sB5gUzWikA-be0M26DlWmfmA?e=QHlhOR",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "ETIK-001",
+    "category": "kode_etik",
+    "trigger_keywords": [
+      "lapor pelanggaran",
+      "kode etik",
+      "pelanggaran etik"
+    ],
+    "question_examples": [
+      "Mau lapor pelanggaran kode etik gimana?",
+      "Ada yang melanggar etik, lapor kemana?",
+      "Link buat laporan pelanggaran dimana?"
+    ],
+    "answer": "Ini link buat Pelaporan Pelanggaran Kode Etik.",
+    "media_url": "https://bit.ly/laporanetikTB",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "ETIK-002",
+    "category": "kode_etik",
+    "trigger_keywords": [
+      "prosedur kode etik",
+      "regulasi kode etik"
+    ],
+    "question_examples": [
+      "Prosedurnya gimana kalau ada pelanggaran kode etik?",
+      "Aturan kode etik mahasiswa itu apa aja?",
+      "Sanksi pelanggaran kode etik gimana?"
+    ],
+    "answer": "Ini Prosedur & Regulasi Penanganan Pelanggaran Kode Etik Mahasiswa.",
+    "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/IQCp1ynV4aXqQ5ByuzJW5rIxAWNtW9Iyr9aIiI3R1cg_g9E?e=CuPH52",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "SRT-001",
+    "category": "surat",
+    "trigger_keywords": [
+      "pengajuan surat",
+      "bikin surat",
+      "surat prodi"
+    ],
+    "question_examples": [
+      "Cara pengajuan surat prodi gimana?",
+      "Mau minta surat aktif kuliah gimana caranya?",
+      "Link buat request surat dimana?",
+      "Pengajuan surat keterangan lewat mana?"
+    ],
+    "answer": "Isi formulir pengajuan surat prodi di sini.",
+    "media_url": "https://forms.office.com/r/j11sR1vEfF",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "AKD-001",
+    "category": "akademik",
+    "trigger_keywords": [
+      "pedoman ai",
+      "penggunaan ai"
+    ],
+    "question_examples": [
+      "Ada pedoman penggunaan AI gak?",
+      "Boleh pakai AI buat ngerjain tugas gak?",
+      "Aturan penggunaan ChatGPT/AI di kampus gimana?"
+    ],
+    "answer": "Ini Pedoman Penggunaan AI dari prodi.",
+    "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:f:/g/personal/proditbtelu_telkomuniversity_ac_id/EhSKfjeJ_NpBmrQYv5J-XWABsuV9MrWFYf3DuCmihofeRA?e=LY4IRI",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "AKD-002",
+    "category": "akademik",
+    "trigger_keywords": [
+      "literasi",
+      "10 menit literasi"
+    ],
+    "question_examples": [
+      "Program 10 menit literasi itu apa?",
+      "10 menit literasi wajib gak?",
+      "Literasi itu ngumpulin dimana?"
+    ],
+    "answer": "Ini Surat Edaran 10 Menit Literasi Prodi Teknik Biomedis.",
+    "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/EWU5vhCfq6xCuXoS4zxfmE8BL9CjOeJryoI-YyMJefk9fQ?e=IFcdgc",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "AKD-003",
+    "category": "akademik",
+    "trigger_keywords": [
+      "juknis literasi",
+      "petunjuk teknis literasi"
+    ],
+    "question_examples": [
+      "Ada juknis pembelajaran literasi gak?",
+      "Petunjuk teknis literasi dimana?",
+      "Cara ikut program literasi gimana?"
+    ],
+    "answer": "Ini Petunjuk Teknis Pembelajaran Literasi.",
+    "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/EfNTObBS6uhMmBG-5iR66HEBHW613j5pnszMDODkMBYUSg?e=hIjyXR",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "KTK-001",
     "category": "kontak",
-    "trigger_keywords": ["kontak", "kontak admin", "hubungi", "nomor admin"],
-    "question_examples": ["Kontak admin prodi apa?", "Mau tanya ke siapa ya?"],
-    "answer": "Kontak admin prodi: 08xx-xxxx-xxxx (jam kerja 08.00-16.00 WIB).",
+    "trigger_keywords": [
+      "admin",
+      "kang tebi",
+      "hubungi admin",
+      "cs"
+    ],
+    "question_examples": [
+      "Mau tanya ke admin gimana caranya?",
+      "Nomor WA admin prodi apa?",
+      "Kontak Kang Tebi berapa?",
+      "Mau chat admin kemana?"
+    ],
+    "answer": "Bisa langsung hubungi Kang Tebi (Admin) di wa.me/62811102585.",
     "media_url": "",
     "active": true,
-    "last_updated": "2026-07-09"
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "KTK-002",
+    "category": "kontak",
+    "trigger_keywords": [
+      "website prodi",
+      "web prodi"
+    ],
+    "question_examples": [
+      "Website resmi prodi apa?",
+      "Web prodi TB dimana?",
+      "Link website biomedis Tel-U apa?"
+    ],
+    "answer": "Website resmi Prodi Teknik Biomedis: bbe.telkomuniversity.ac.id",
+    "media_url": "",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "KTK-003",
+    "category": "kontak",
+    "trigger_keywords": [
+      "instagram",
+      "ig prodi"
+    ],
+    "question_examples": [
+      "Instagram prodi apa?",
+      "IG resmi TB Tel-U apa?",
+      "Sosmed prodi apa aja?"
+    ],
+    "answer": "Instagram resmi: instagram.com/s1teknikbiomedis_telu",
+    "media_url": "",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
+    "id": "KTK-004",
+    "category": "kontak",
+    "trigger_keywords": [
+      "youtube",
+      "channel youtube"
+    ],
+    "question_examples": [
+      "Ada channel YouTube prodi gak?",
+      "Link YouTube biomedis Tel-U apa?"
+    ],
+    "answer": "YouTube resmi: youtube.com/@biomedis.telkomuniversity",
+    "media_url": "",
+    "active": true,
+    "last_updated": "2026-09-07"
   }
 ]
