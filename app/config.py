@@ -12,7 +12,11 @@ MATCH_THRESHOLD = int(os.environ.get("MATCH_THRESHOLD", "65"))  # 60-70 sesuai d
 
 GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
 GOOGLE_SHEET_WORKSHEET = os.environ.get("GOOGLE_SHEET_WORKSHEET", "faq")
+# Dev lokal: path ke file JSON service account (di-gitignore).
 GOOGLE_SERVICE_ACCOUNT_FILE = os.environ.get("GOOGLE_SERVICE_ACCOUNT_FILE", "")
+# Deploy (Fly secret): isi JSON service account langsung sebagai string env var,
+# dipakai kalau file gak bisa ikut ke-deploy (gitignored). Kalau diisi, ini yang menang.
+GOOGLE_SERVICE_ACCOUNT_JSON = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON", "")
 
 DB_PATH = os.environ.get("DB_PATH", "data/conversation_log.db")
 FAQ_SEED_PATH = os.environ.get("FAQ_SEED_PATH", "data/faq_seed.json")

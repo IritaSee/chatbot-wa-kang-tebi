@@ -14,11 +14,9 @@ from app import config, faq_store  # noqa: E402
 
 
 def _sheets_configured() -> bool:
-    return bool(
-        config.GOOGLE_SHEET_ID
-        and config.GOOGLE_SERVICE_ACCOUNT_FILE
-        and os.path.exists(config.GOOGLE_SERVICE_ACCOUNT_FILE)
-    )
+    has_json_env = bool(config.GOOGLE_SERVICE_ACCOUNT_JSON)
+    has_file = bool(config.GOOGLE_SERVICE_ACCOUNT_FILE) and os.path.exists(config.GOOGLE_SERVICE_ACCOUNT_FILE)
+    return bool(config.GOOGLE_SHEET_ID) and (has_json_env or has_file)
 
 
 def test_sheet_accessible_and_readable():

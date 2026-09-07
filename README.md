@@ -32,9 +32,17 @@ python tests/test_handler.py
 ```bash
 fly launch --no-deploy   # pakai fly.toml yang sudah ada
 fly volumes create kang_tebi_data --size 1
-fly secrets set FONNTE_TOKEN=xxx GOOGLE_SHEET_ID=xxx GOOGLE_SERVICE_ACCOUNT_FILE=/app/service-account.json
+
+# service-account.json di-gitignore, gak ikut ke-deploy lewat repo.
+# Set isinya langsung sebagai secret (satu baris, isi file JSON apa adanya):
+fly secrets set GOOGLE_SERVICE_ACCOUNT_JSON="$(cat service-account.json)"
+fly secrets set FONNTE_TOKEN=xxx GOOGLE_SHEET_ID=xxx GOOGLE_SHEET_WORKSHEET=FAQ
+
 fly deploy
 ```
+
+`GOOGLE_SERVICE_ACCOUNT_JSON` (isi JSON langsung) dipakai kalau ada; kalau kosong,
+fallback ke `GOOGLE_SERVICE_ACCOUNT_FILE` (path file, buat dev lokal aja).
 
 ## Setup Google Sheets FAQ
 
