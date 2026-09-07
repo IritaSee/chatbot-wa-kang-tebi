@@ -1,25 +1,26 @@
-"""Intent matcher: menu number -> kategori langsung, else fuzzy match ke trigger_keywords."""
+"""Intent matcher: menu number -> daftar topik kategori (banyak entri per kategori
+sekarang), else fuzzy match ke trigger_keywords."""
 from rapidfuzz import fuzz, process
 
 from app import config
 
 
+def match_menu(text: str) -> str | None:
+    """Return kategori kalau teks adalah nomor menu (1-7), else None."""
+    return config.MENU_CATEGORY_BY_NUMBER.get(text.strip())
+
+
+def entries_by_category(category: str, faqs: list[dict]) -> list[dict]:
+    return [f for f in faqs if f["category"] == category]
+
+
 def match(text: str, faqs: list[dict]) -> tuple[dict | None, str, int]:
-    """Return (faq_entry_or_None, match_method, score).
+    """Match teks bebas (bukan nomor menu) ke satu entri FAQ.
 
-    match_method: "menu" | "keyword" | "fuzzy"
-    score: 100 buat menu/exact keyword, 0-100 buat fuzzy.
+    match_method: "keyword" | "fuzzy"
+    score: 100 buat exact keyword, 0-100 buat fuzzy.
     """
-    stripped = text.strip()
-
-    if stripped in config.MENU_CATEGORY_BY_NUMBER:
-        category = config.MENU_CATEGORY_BY_NUMBER[stripped]
-        for faq in faqs:
-            if faq["category"] == category:
-                return faq, "menu", 100
-        return None, "menu", 0
-
-    lowered = stripped.lower()
+    lowered = text.strip().lower()
 
     # exact keyword substring match dulu (lebih murah & pasti)
     for faq in faqs:

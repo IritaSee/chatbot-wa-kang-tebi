@@ -16,11 +16,19 @@ def handle_incoming_message(wa_number: str, text: str, faqs: list[dict]) -> str 
     if logger.is_handover_active(number_hash):
         return None
 
+    category = matcher.match_menu(text)
+    if category is not None:
+        entries = matcher.entries_by_category(category, faqs)
+        logger.register_match(number_hash)
+        response = reply.format_menu_topics(config.CATEGORY_LABELS.get(category, category), entries)
+        logger.log_interaction(number_hash, text, None, "menu", response, fallback=False)
+        return response
+
     faq, method, score = matcher.match(text, faqs)
 
     if faq is not None:
         logger.register_match(number_hash)
-        response = reply.format_answer(faq["answer"])
+        response = reply.format_answer(faq)
         logger.log_interaction(number_hash, text, faq["id"], method, response, fallback=False)
         return response
 

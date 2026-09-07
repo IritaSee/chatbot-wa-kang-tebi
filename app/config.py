@@ -24,16 +24,26 @@ FALLBACK_STREAK_FOR_HANDOVER = int(os.environ.get("FALLBACK_STREAK_FOR_HANDOVER"
 BOT_HEADER = "*Kang Tebi (bot prodi)*"
 BOT_FOOTER = '_Butuh dibantu manusia? Balas "admin"_'
 
-MAIN_MENU = (
-    "1. Jadwal akademik\n"
-    "2. Syarat pendaftaran\n"
-    "3. Kontak admin prodi\n"
-    "4. Pertanyaan lain"
-)
-
 MENU_CATEGORY_BY_NUMBER = {
-    "1": "jadwal",
-    "2": "syarat_pendaftaran",
-    "3": "kontak",
-    "4": "lainnya",
+    "1": "tugas_akhir",
+    "2": "sempro",
+    "3": "kerja_praktik",
+    "4": "kode_etik",
+    "5": "surat",
+    "6": "akademik",
+    "7": "kontak",
 }
+
+CATEGORY_LABELS = {
+    "tugas_akhir": "Tugas Akhir (jadwal sidang, SOP, panduan, EC, katalog capstone)",
+    "sempro": "Seminar Proposal (SOP pra & pasca sempro)",
+    "kerja_praktik": "Kerja Praktik (panduan KP)",
+    "kode_etik": "Kode Etik (lapor pelanggaran, prosedur & regulasi)",
+    "surat": "Pengajuan Surat Prodi",
+    "akademik": "Akademik (pedoman AI, literasi)",
+    "kontak": "Kontak Prodi (admin, website, sosmed)",
+}
+
+MAIN_MENU = "\n".join(
+    f"{number}. {CATEGORY_LABELS[category]}" for number, category in MENU_CATEGORY_BY_NUMBER.items()
+)
