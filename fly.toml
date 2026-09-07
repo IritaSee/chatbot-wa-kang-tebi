@@ -1,0 +1,18 @@
+app = "kang-tebi-bot"
+primary_region = "sin"
+
+[build]
+
+[env]
+  DB_PATH = "/data/conversation_log.db"
+
+[mounts]
+  source = "kang_tebi_data"
+  destination = "/data"
+
+[http_service]
+  internal_port = 8000
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1

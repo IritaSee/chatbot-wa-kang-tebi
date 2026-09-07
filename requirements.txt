@@ -1,0 +1,7 @@
+fastapi
+uvicorn[standard]
+rapidfuzz
+gspread
+google-auth
+requests
+python-dotenv

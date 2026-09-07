@@ -1,0 +1,32 @@
+[
+  {
+    "id": "faq-001",
+    "category": "jadwal",
+    "trigger_keywords": ["jadwal", "kapan daftar", "jadwal akademik", "kalender akademik"],
+    "question_examples": ["Jadwal akademik kapan ya?", "Kapan mulai UAS?"],
+    "answer": "Jadwal akademik semester ini bisa dicek di link resmi prodi: https://contoh.ac.id/jadwal-akademik",
+    "media_url": "",
+    "active": true,
+    "last_updated": "2026-07-09"
+  },
+  {
+    "id": "faq-002",
+    "category": "syarat_pendaftaran",
+    "trigger_keywords": ["syarat", "daftar", "pendaftaran", "syarat daftar"],
+    "question_examples": ["Syarat pendaftaran apa aja?", "Cara daftar gimana?"],
+    "answer": "Syarat pendaftaran: (1) fotokopi ijazah, (2) transkrip nilai, (3) pas foto. Detail lengkap: https://contoh.ac.id/syarat-daftar",
+    "media_url": "",
+    "active": true,
+    "last_updated": "2026-07-09"
+  },
+  {
+    "id": "faq-003",
+    "category": "kontak",
+    "trigger_keywords": ["kontak", "kontak admin", "hubungi", "nomor admin"],
+    "question_examples": ["Kontak admin prodi apa?", "Mau tanya ke siapa ya?"],
+    "answer": "Kontak admin prodi: 08xx-xxxx-xxxx (jam kerja 08.00-16.00 WIB).",
+    "media_url": "",
+    "active": true,
+    "last_updated": "2026-07-09"
+  }
+]
