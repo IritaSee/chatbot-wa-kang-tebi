@@ -1,5 +1,27 @@
 [
   {
+    "id": "SYS-001",
+    "category": "kontak",
+    "trigger_keywords": [
+      "siapa kamu",
+      "kamu siapa",
+      "ini siapa",
+      "kamu bot apa",
+      "kang tebi itu apa",
+      "kamu ai apa bukan"
+    ],
+    "question_examples": [
+      "Kamu siapa?",
+      "Ini bot apa manusia?",
+      "Kang Tebi itu apa?",
+      "Halo, ini siapa ya?"
+    ],
+    "answer": "Saya Kang Tebi, asisten otomatis Prodi Teknik Biomedis Telkom University. Saya bantu jawab pertanyaan seputar Tugas Akhir, Sempro, KP, kode etik, surat, dan info akademik. Kalau butuh dibantu manusia, balas \"admin\".",
+    "media_url": "",
+    "active": true,
+    "last_updated": "2026-09-07"
+  },
+  {
     "id": "TA-001",
     "category": "tugas_akhir",
     "trigger_keywords": [

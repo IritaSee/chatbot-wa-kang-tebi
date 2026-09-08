@@ -17,15 +17,16 @@ async def webhook(request: Request):
     # Fonnte kirim field "sender" (nomor pengirim) & "message" (isi teks)
     sender = payload.get("sender", "")
     message = payload.get("message", "")
+    name = payload.get("name", "") or payload.get("pushname", "")
 
-    print(f"[webhook] terima pesan dari Fonnte -> sender={sender!r} message={message!r} raw={payload}")
+    print(f"[webhook] terima pesan dari Fonnte -> sender={sender!r} message={message!r} name={name!r} raw={payload}")
 
     if not sender or not message:
         print("[webhook] payload gak lengkap (sender/message kosong), skip")
         return {"status": "ignored"}
 
     faqs = faq_store.load_faqs()
-    reply_text = handler.handle_incoming_message(sender, message, faqs)
+    reply_text = handler.handle_incoming_message(sender, message, faqs, name=name)
 
     if reply_text:
         wa_client.send_message(sender, reply_text)

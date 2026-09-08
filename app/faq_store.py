@@ -1,9 +1,13 @@
 """FAQ store: baca dari Google Sheets (gspread) kalau kredensial ada,
 kalau tidak fallback ke data/faq_seed.json (dev lokal / belum ada Sheets).
+FAQ di-cache di memory proses: di serverless (Vercel), container di-reuse antar
+request kalau masih "warm", jadi Sheets cuma ke-hit pas cold start, bukan tiap pesan.
 """
 import json
 
-from app import config
+from app import config, sheets_client
+
+_faq_cache: list[dict] | None = None
 
 _SHEET_COLUMNS = [
     "id", "category", "trigger_keywords", "question_examples",
@@ -29,19 +33,7 @@ def _row_to_entry(row: dict) -> dict:
 
 
 def _load_from_sheets() -> list[dict]:
-    import gspread
-    from google.oauth2.service_account import Credentials
-
-    scopes = ["https://www.googleapis.com/auth/spreadsheets.readonly"]
-    if config.GOOGLE_SERVICE_ACCOUNT_JSON:
-        # deploy (Fly secret): isi JSON langsung di env var, gak ada file di repo
-        info = json.loads(config.GOOGLE_SERVICE_ACCOUNT_JSON)
-        creds = Credentials.from_service_account_info(info, scopes=scopes)
-    else:
-        # dev lokal: path ke file .json (di-gitignore)
-        creds = Credentials.from_service_account_file(config.GOOGLE_SERVICE_ACCOUNT_FILE, scopes=scopes)
-    client = gspread.authorize(creds)
-    sheet = client.open_by_key(config.GOOGLE_SHEET_ID).worksheet(config.GOOGLE_SHEET_WORKSHEET)
+    sheet = sheets_client.worksheet(config.GOOGLE_SHEET_WORKSHEET)
     rows = sheet.get_all_records()
     return [_row_to_entry(r) for r in rows]
 
@@ -51,11 +43,19 @@ def _load_from_local_json() -> list[dict]:
         return json.load(f)
 
 
-def load_faqs() -> list[dict]:
-    """Return list of active FAQ entries. Sheets kalau dikonfigurasi, else local JSON."""
-    has_sheets_creds = config.GOOGLE_SERVICE_ACCOUNT_JSON or config.GOOGLE_SERVICE_ACCOUNT_FILE
-    if config.GOOGLE_SHEET_ID and has_sheets_creds:
+def load_faqs(use_cache: bool = True) -> list[dict]:
+    """Return list of active FAQ entries. Sheets kalau dikonfigurasi, else local JSON.
+    Di-cache di memory proses (lihat docstring modul) buat hemat kuota Sheets API."""
+    global _faq_cache
+    if use_cache and _faq_cache is not None:
+        return _faq_cache
+
+    if sheets_client.is_configured():
         entries = _load_from_sheets()
     else:
         entries = _load_from_local_json()
-    return [e for e in entries if e.get("active", True)]
+    active = [e for e in entries if e.get("active", True)]
+
+    if use_cache:
+        _faq_cache = active
+    return active

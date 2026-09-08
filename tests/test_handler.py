@@ -16,6 +16,11 @@ from app import config, handler, matcher  # noqa: E402
 # sebelum env var di atas ke-set. Force ulang di sini biar test ini gak numpuk
 # data ke data/conversation_log.db beneran.
 config.DB_PATH = os.environ["DB_PATH"]
+# Kalau dev punya .env dengan kredensial Sheets asli, logger bakal pilih backend
+# Sheets (lihat logger._use_sheets()). Test ini harus offline & pakai SQLite,
+# jadi paksa kosong biar gak numpuk data ke Sheets beneran / gagal karena
+# worksheet contacts/log belum dibikin.
+config.GOOGLE_SHEET_ID = ""
 
 FAQS = [
     {"id": "TA-001", "category": "tugas_akhir", "trigger_keywords": ["jadwal sidang", "sidang ta"],

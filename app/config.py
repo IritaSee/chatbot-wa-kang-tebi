@@ -12,9 +12,11 @@ MATCH_THRESHOLD = int(os.environ.get("MATCH_THRESHOLD", "65"))  # 60-70 sesuai d
 
 GOOGLE_SHEET_ID = os.environ.get("GOOGLE_SHEET_ID", "")
 GOOGLE_SHEET_WORKSHEET = os.environ.get("GOOGLE_SHEET_WORKSHEET", "faq")
+GOOGLE_SHEET_CONTACTS_WORKSHEET = os.environ.get("GOOGLE_SHEET_CONTACTS_WORKSHEET", "contacts")
+GOOGLE_SHEET_LOG_WORKSHEET = os.environ.get("GOOGLE_SHEET_LOG_WORKSHEET", "log")
 # Dev lokal: path ke file JSON service account (di-gitignore).
 GOOGLE_SERVICE_ACCOUNT_FILE = os.environ.get("GOOGLE_SERVICE_ACCOUNT_FILE", "")
-# Deploy (Fly secret): isi JSON service account langsung sebagai string env var,
+# Deploy (env var Vercel): isi JSON service account langsung sebagai string env var,
 # dipakai kalau file gak bisa ikut ke-deploy (gitignored). Kalau diisi, ini yang menang.
 GOOGLE_SERVICE_ACCOUNT_JSON = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON", "")
 
@@ -26,7 +28,16 @@ HANDOVER_RESET_HOURS = 24
 FALLBACK_STREAK_FOR_HANDOVER = int(os.environ.get("FALLBACK_STREAK_FOR_HANDOVER", "3"))
 
 BOT_HEADER = "*Kang Tebi (bot prodi)*"
-BOT_FOOTER = '_Butuh dibantu manusia? Balas "admin"_'
+BOT_FOOTER = (
+    '_Butuh dibantu manusia? Balas "admin". '
+    'Chat ini dicatat untuk keperluan layanan Prodi Teknik Biomedis._'
+)
+# Deskripsi identitas bot, dipakai buat entri FAQ "kamu siapa?" & (fase 2) system prompt LLM.
+BOT_PERSONA = (
+    "Saya Kang Tebi, asisten otomatis Prodi Teknik Biomedis Telkom University. "
+    "Saya bantu jawab pertanyaan seputar Tugas Akhir, Sempro, KP, kode etik, surat, "
+    "dan info akademik. Kalau butuh dibantu manusia, balas \"admin\"."
+)
 
 MENU_CATEGORY_BY_NUMBER = {
     "1": "tugas_akhir",
