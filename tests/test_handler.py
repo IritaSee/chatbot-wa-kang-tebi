@@ -61,6 +61,16 @@ def test_handler_fallback_then_handover_after_streak():
     assert r3 is None, "sudah handover, bot harus skip walau match FAQ"
 
 
+def test_hash_number_normalizes_format_variants():
+    """Bug: Fonnte kadang ngirim sender beda format ('+62...' vs '62...' vs ada
+    spasi) buat nomor yang sama -> tanpa normalisasi hash beda -> handover
+    admin gak kebaca lagi (kerasa kayak session reset kecepetan)."""
+    from app import logger
+    base = logger.hash_number("6281234567890")
+    assert logger.hash_number("+62 8123-4567-890") == base
+    assert logger.hash_number(" 6281234567890 ") == base
+
+
 def test_handler_explicit_admin_trigger_skips_bot():
     number = "628222000222"
     r1 = handler.handle_incoming_message(number, "admin", FAQS)
@@ -74,5 +84,6 @@ if __name__ == "__main__":
     test_keyword_exact_match()
     test_no_match_returns_none()
     test_handler_fallback_then_handover_after_streak()
+    test_hash_number_normalizes_format_variants()
     test_handler_explicit_admin_trigger_skips_bot()
     print("OK: semua self-check lolos")

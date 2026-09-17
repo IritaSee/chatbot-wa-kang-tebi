@@ -29,5 +29,18 @@ def _spreadsheet():
     return client.open_by_key(config.GOOGLE_SHEET_ID)
 
 
-def worksheet(name: str):
-    return _spreadsheet().worksheet(name)
+def worksheet(name: str, header: list[str] | None = None):
+    """Return worksheet `name`. Kalau belum ada di spreadsheet (mis. cuma sheet
+    `faq` yang dibikin manual, `contacts`/`log` belum), bikin otomatis + isi
+    baris header -- daripada gspread.exceptions.WorksheetNotFound bikin
+    /webhook crash tiap ada pesan (handover jadi gak pernah kesimpen)."""
+    import gspread
+
+    spreadsheet = _spreadsheet()
+    try:
+        return spreadsheet.worksheet(name)
+    except gspread.exceptions.WorksheetNotFound:
+        ws = spreadsheet.add_worksheet(title=name, rows=1000, cols=max(len(header or []), 10))
+        if header:
+            ws.append_row(header, value_input_option="RAW")
+        return ws

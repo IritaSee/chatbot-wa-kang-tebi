@@ -8,6 +8,7 @@ sebagai kunci stabil buat join ke conversation_log (yang tetap hash-only).
 """
 import hashlib
 import os
+import re
 import sqlite3
 from datetime import datetime, timedelta
 
@@ -41,7 +42,15 @@ CREATE TABLE IF NOT EXISTS contacts (
 
 
 def hash_number(wa_number: str) -> str:
-    return hashlib.sha256(wa_number.encode("utf-8")).hexdigest()
+    """Normalize dulu (ambil digit doang) sebelum di-hash. Fonnte kadang ngirim
+
+    nomor sender dengan format sedikit beda antar-webhook call (spasi, "+",
+    dst) buat kontak yang sama -> tanpa normalisasi, hash-nya beda -> sistem
+    anggap "orang baru" -> handover aktif ketembus/gak kebaca (bug: bot balas
+    lagi padahal user baru ketik "admin", session kerasa "reset" kecepetan).
+    """
+    digits = re.sub(r"\D", "", wa_number)
+    return hashlib.sha256((digits or wa_number).encode("utf-8")).hexdigest()
 
 
 def _use_sheets() -> bool:

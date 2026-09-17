@@ -52,3 +52,6 @@ reset tiap cold start/redeploy — diterima buat fase 1.
 
 Kolom worksheet (header baris pertama): `id, category, trigger_keywords, question_examples, answer, media_url, active, last_updated`.
 `trigger_keywords` dan `question_examples` dipisah koma dalam satu cell.
+
+Worksheet `contacts` dan `log` (nama sesuai `GOOGLE_SHEET_CONTACTS_WORKSHEET`/`GOOGLE_SHEET_LOG_WORKSHEET`)
+dibikin otomatis + header kalau belum ada di spreadsheet, jadi gak perlu bikin manual.

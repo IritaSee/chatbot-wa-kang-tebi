@@ -15,13 +15,18 @@ _CONTACTS_COLUMNS = [
     "handover", "handover_since", "handover_reason", "fallback_streak",
 ]
 
+_LOG_COLUMNS = [
+    "wa_number_hash", "timestamp", "incoming_text", "matched_faq_id",
+    "match_method", "response_sent", "fallback",
+]
+
 
 def _contacts_ws():
-    return sheets_client.worksheet(config.GOOGLE_SHEET_CONTACTS_WORKSHEET)
+    return sheets_client.worksheet(config.GOOGLE_SHEET_CONTACTS_WORKSHEET, header=_CONTACTS_COLUMNS)
 
 
 def _log_ws():
-    return sheets_client.worksheet(config.GOOGLE_SHEET_LOG_WORKSHEET)
+    return sheets_client.worksheet(config.GOOGLE_SHEET_LOG_WORKSHEET, header=_LOG_COLUMNS)
 
 
 def _find_contact_row(ws, wa_number_hash: str) -> tuple[int | None, dict]:
