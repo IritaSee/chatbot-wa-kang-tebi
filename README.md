@@ -55,3 +55,17 @@ Kolom worksheet (header baris pertama): `id, category, trigger_keywords, questio
 
 Worksheet `contacts` dan `log` (nama sesuai `GOOGLE_SHEET_CONTACTS_WORKSHEET`/`GOOGLE_SHEET_LOG_WORKSHEET`)
 dibikin otomatis + header kalau belum ada di spreadsheet, jadi gak perlu bikin manual.
+
+## Handover admin (AI berhenti balas -> manusia -> AI aktif lagi)
+
+- User ketik salah satu `HANDOVER_KEYWORDS` (`admin`, `cs`, `manusia`) -> kolom
+  `handover` nomor itu di worksheet `contacts` jadi `1`, bot berhenti balas,
+  admin lanjut manual dari WA.
+- Kalau admin sudah selesai bantu & mau nutup percakapan (mengaktifkan AI lagi
+  buat nomor itu), edit langsung baris nomor tsb di worksheet `contacts`:
+  kosongkan kolom `handover` (jadi `0`), `handover_since`, dan `handover_reason`.
+  Pesan berikutnya dari user langsung dibalas AI lagi, tanpa nunggu timeout.
+- Kalau admin tidak menutup manual, status handover dengan `handover_reason =
+  explicit` otomatis reset sendiri setelah `HANDOVER_RESET_HOURS` (default 24
+  jam) — reset manual ini berjalan di samping timeout otomatis itu, bukan
+  gantiin.

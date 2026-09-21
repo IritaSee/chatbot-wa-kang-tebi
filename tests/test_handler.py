@@ -79,6 +79,26 @@ def test_handler_explicit_admin_trigger_skips_bot():
     assert r2 is None, "handover eksplisit belum 24 jam, bot harus tetap skip"
 
 
+def test_handler_manual_reset_reactivates_ai_before_timeout():
+    """Admin bisa reaktivasi AI kapan aja (mis. edit cell `handover` jadi 0 di
+    Google Sheets, atau panggil logger.reset_handover langsung) tanpa nunggu
+    HANDOVER_RESET_HOURS -- mekanisme ini jalan di samping timeout utama."""
+    from app import logger
+
+    number = "628333000333"
+    number_hash = logger.hash_number(number)
+
+    r1 = handler.handle_incoming_message(number, "admin", FAQS)
+    assert r1 is None, "user ketik 'admin' -> bot stop balas"
+    r2 = handler.handle_incoming_message(number, "jadwal sidang ta dong", FAQS)
+    assert r2 is None, "masih handover, bot tetap skip walau match FAQ"
+
+    logger.reset_handover(number_hash)  # admin nutup percakapan & reaktivasi manual
+
+    r3 = handler.handle_incoming_message(number, "jadwal sidang ta dong", FAQS)
+    assert r3 is not None, "sudah direset admin, AI harus balas lagi (gak perlu nunggu 24 jam)"
+
+
 if __name__ == "__main__":
     test_menu_number_match_lists_category_entries()
     test_keyword_exact_match()
@@ -86,4 +106,5 @@ if __name__ == "__main__":
     test_handler_fallback_then_handover_after_streak()
     test_hash_number_normalizes_format_variants()
     test_handler_explicit_admin_trigger_skips_bot()
+    test_handler_manual_reset_reactivates_ai_before_timeout()
     print("OK: semua self-check lolos")
