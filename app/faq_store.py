@@ -33,7 +33,9 @@ def _row_to_entry(row: dict) -> dict:
 
 
 def _load_from_sheets() -> list[dict]:
-    sheet = sheets_client.worksheet(config.GOOGLE_SHEET_WORKSHEET)
+    # header= biar tab "faq" auto-dibikin dengan header kalau belum ada
+    # (spreadsheet baru/kosong), bukan tab kosong tanpa header (rows jadi [] silent).
+    sheet = sheets_client.worksheet(config.GOOGLE_SHEET_WORKSHEET, header=_SHEET_COLUMNS)
     rows = sheet.get_all_records()
     return [_row_to_entry(r) for r in rows]
 

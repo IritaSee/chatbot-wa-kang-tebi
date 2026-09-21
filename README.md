@@ -53,8 +53,15 @@ reset tiap cold start/redeploy — diterima buat fase 1.
 Kolom worksheet (header baris pertama): `id, category, trigger_keywords, question_examples, answer, media_url, active, last_updated`.
 `trigger_keywords` dan `question_examples` dipisah koma dalam satu cell.
 
-Worksheet `contacts` dan `log` (nama sesuai `GOOGLE_SHEET_CONTACTS_WORKSHEET`/`GOOGLE_SHEET_LOG_WORKSHEET`)
-dibikin otomatis + header kalau belum ada di spreadsheet, jadi gak perlu bikin manual.
+Worksheet `faq`, `contacts`, dan `log` (nama sesuai `GOOGLE_SHEET_WORKSHEET`/
+`GOOGLE_SHEET_CONTACTS_WORKSHEET`/`GOOGLE_SHEET_LOG_WORKSHEET`) dibikin otomatis
++ header kalau belum ada di spreadsheet, jadi gak perlu bikin tab manual.
+
+Kalau `GOOGLE_SHEET_ID` diisi tapi spreadsheet-nya sendiri gak ketemu (ID salah/
+belum pernah dibikin/kehapus), backend otomatis bikin spreadsheet Google Sheets
+baru (dicetak ID-nya di log) daripada webhook error tiap pesan masuk — tapi ID
+barunya beda dari `GOOGLE_SHEET_ID` yang di-set, jadi update env var itu ke ID
+baru tsb biar gak bikin spreadsheet baru lagi tiap cold start.
 
 ## Handover admin (AI berhenti balas -> manusia -> AI aktif lagi)
 

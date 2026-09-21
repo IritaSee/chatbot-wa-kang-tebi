@@ -26,7 +26,20 @@ def _spreadsheet():
         # dev lokal: path ke file .json (di-gitignore)
         creds = Credentials.from_service_account_file(config.GOOGLE_SERVICE_ACCOUNT_FILE, scopes=_SCOPES)
     client = gspread.authorize(creds)
-    return client.open_by_key(config.GOOGLE_SHEET_ID)
+    try:
+        return client.open_by_key(config.GOOGLE_SHEET_ID)
+    except gspread.exceptions.SpreadsheetNotFound:
+        # GOOGLE_SHEET_ID diisi tapi spreadsheet-nya gak ketemu (belum dibikin/salah
+        # ID/kehapus) -> bikin spreadsheet baru daripada webhook crash tiap pesan.
+        # ID barunya beda dari GOOGLE_SHEET_ID di env, jadi dicetak biar admin bisa
+        # update env var-nya (kalau enggak, tiap cold start bikin spreadsheet baru lagi).
+        spreadsheet = client.create(f"Kang Tebi Bot Data ({config.GOOGLE_SHEET_ID})")
+        print(
+            f"[sheets_client] GOOGLE_SHEET_ID={config.GOOGLE_SHEET_ID!r} gak ketemu, "
+            f"bikin spreadsheet baru -> id={spreadsheet.id!r}. "
+            "Update GOOGLE_SHEET_ID env var ke ID ini biar gak bikin baru lagi tiap cold start."
+        )
+        return spreadsheet
 
 
 def worksheet(name: str, header: list[str] | None = None):
