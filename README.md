@@ -4,7 +4,8 @@
 
 - `app/main.py` — FastAPI app, endpoint `POST /webhook` (dipanggil Fonnte).
 - `app/handler.py` — orkestrasi alur pesan (menu/keyword/fuzzy match, fallback, handover).
-- `app/matcher.py` — matching pakai `rapidfuzz` (threshold `MATCH_THRESHOLD`).
+- `app/matcher.py` — matching pakai `rapidfuzz` (threshold `MATCH_THRESHOLD`), tier 1.
+- `app/llm.py` — tier 2, jawab bebas via LLM (menu "8. Lainnya"), dibatasi ke isi FAQ.
 - `app/faq_store.py` — load FAQ dari Google Sheets (`gspread`), fallback ke `data/faq_seed.json`.
 - `app/logger.py` — conversation log + handover state, full Google Sheets (`sheets_store.py`), wajib dikonfigurasi.
 - `app/wa_client.py` — kirim balasan via Fonnte API.
@@ -66,6 +67,29 @@ belum pernah dibikin/kehapus), backend otomatis bikin spreadsheet Google Sheets
 baru (dicetak ID-nya di log) daripada webhook error tiap pesan masuk — tapi ID
 barunya beda dari `GOOGLE_SHEET_ID` yang di-set, jadi update env var itu ke ID
 baru tsb biar gak bikin spreadsheet baru lagi tiap cold start.
+
+## 3 tier: fuzzy -> LLM -> human override
+
+1. **Fuzzy (default)** — menu angka 1-7 / keyword / `rapidfuzz` (`app/matcher.py`).
+   Dipakai duluan buat semua pesan; cepat & gratis.
+2. **LLM (menu `8. Lainnya`)** — user pilih 8 -> mode nomor itu jadi `llm`, pesan
+   berikutnya dijawab `app/llm.py` (dibatasi ke isi FAQ, gak boleh mengarang).
+   Ketik `menu`/`0` buat balik ke fuzzy, atau idle `LLM_MODE_IDLE_MINUTES` ->
+   otomatis balik. Dibatasi `LLM_DAILY_CAP` panggilan/nomor/hari — lewat cap atau
+   LLM gagal/gak nemu jawaban (`ESCALATE`) -> otomatis diteruskan ke admin (tier 3).
+3. **Human override** — kata `admin`/`cs`/`manusia`, atau auto-eskalasi dari tier 2.
+
+Provider LLM: base URL Anthropic-compatible (`LLM_BASE_URL`), bisa proxy pihak
+ketiga (mis. 9router, satu API key) atau `api.anthropic.com` langsung — ganti
+provider = ganti env var, nol perubahan kode. Kosongin `LLM_API_KEY` buat matiin
+tier 2 total.
+
+Admin kontrol per nomor lewat worksheet `contacts` (kolom auto-dibikin kalau
+belum ada di sheet lama):
+- `bot_enabled=0` — matiin bot total (fuzzy + LLM) buat nomor itu, manual penuh.
+- `llm_enabled=0` — matiin tier 2 doang, fuzzy tetap jalan.
+- `mode`/`mode_since` — status sesi LLM, bisa direset manual dari sheet.
+- `llm_count`/`llm_date` — counter kuota harian.
 
 ## Handover admin (AI berhenti balas -> manusia -> AI aktif lagi)
 

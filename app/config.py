@@ -26,6 +26,17 @@ HANDOVER_KEYWORDS = {"admin", "cs", "manusia"}
 HANDOVER_RESET_HOURS = 24
 FALLBACK_STREAK_FOR_HANDOVER = int(os.environ.get("FALLBACK_STREAK_FOR_HANDOVER", "3"))
 
+# Tier 2 (LLM, dipilih user lewat menu "8. Lainnya"). Base URL Anthropic-compatible
+# (bisa 9router atau api.anthropic.com langsung) -- ganti provider = ganti env var.
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://api.anthropic.com")
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
+LLM_MODEL = os.environ.get("LLM_MODEL", "claude-haiku-4-5-20251001")
+LLM_MAX_TOKENS = int(os.environ.get("LLM_MAX_TOKENS", "500"))
+LLM_DAILY_CAP = int(os.environ.get("LLM_DAILY_CAP", "10"))
+LLM_MODE_IDLE_MINUTES = int(os.environ.get("LLM_MODE_IDLE_MINUTES", "30"))
+MENU_EXIT_KEYWORDS = {"menu", "0"}
+LLM_ESCALATE_MARKER = "ESCALATE"
+
 BOT_HEADER = "*Kang Tebi (bot prodi)*"
 BOT_FOOTER = (
     '_Butuh dibantu manusia? Balas "admin". '
@@ -47,6 +58,7 @@ MENU_CATEGORY_BY_NUMBER = {
     "6": "akademik",
     "7": "kontak",
 }
+MENU_LLM_OPTION = "8"  # "Lainnya" -> masuk tier 2 (LLM), bukan kategori FAQ
 
 CATEGORY_LABELS = {
     "tugas_akhir": "Tugas Akhir (jadwal sidang, SOP, panduan, EC, katalog capstone)",
@@ -60,4 +72,4 @@ CATEGORY_LABELS = {
 
 MAIN_MENU = "\n".join(
     f"{number}. {CATEGORY_LABELS[category]}" for number, category in MENU_CATEGORY_BY_NUMBER.items()
-)
+) + f"\n{MENU_LLM_OPTION}. Lainnya (tanya bebas, dijawab AI)"
