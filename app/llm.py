@@ -1,7 +1,9 @@
 """Tier 2: jawab pertanyaan bebas (menu "8. Lainnya") pakai LLM, dibatasi ke
 konten FAQ yang sudah ada (bukan RAG -- FAQ cuma ~20 entri, muat semua di
-system prompt). Base URL Anthropic-compatible (9router atau api.anthropic.com
-langsung) supaya ganti provider = ganti env var, nol perubahan kode.
+system prompt). Default OpenRouter (satu API key, banyak model termasuk
+Claude) -- format request/response OpenAI-compatible (`/chat/completions`,
+`choices[0].message.content`), dipakai juga oleh base URL OpenAI-compatible
+lain kalau LLM_BASE_URL diganti.
 
 Return None kalau LLM gak bisa/gak mau jawab (API key kosong, HTTP error,
 timeout, atau model sendiri bilang ESCALATE) -- caller (handler.py) yang
@@ -44,22 +46,23 @@ def answer(text: str, faqs: list[dict]) -> str | None:
 
     try:
         resp = requests.post(
-            f"{config.LLM_BASE_URL}/v1/messages",
+            f"{config.LLM_BASE_URL}/chat/completions",
             headers={
-                "x-api-key": config.LLM_API_KEY,
-                "anthropic-version": "2023-06-01",
-                "content-type": "application/json",
+                "Authorization": f"Bearer {config.LLM_API_KEY}",
+                "Content-Type": "application/json",
             },
             json={
                 "model": config.LLM_MODEL,
                 "max_tokens": config.LLM_MAX_TOKENS,
-                "system": _build_system_prompt(faqs),
-                "messages": [{"role": "user", "content": text}],
+                "messages": [
+                    {"role": "system", "content": _build_system_prompt(faqs)},
+                    {"role": "user", "content": text},
+                ],
             },
             timeout=15,
         )
         resp.raise_for_status()
-        body = resp.json()["content"][0]["text"].strip()
+        body = resp.json()["choices"][0]["message"]["content"].strip()
     except Exception as e:  # network/timeout/HTTP/parsing -- semua jalur gagal sama: eskalasi
         print(f"[llm] gagal manggil LLM: {e}")
         return None

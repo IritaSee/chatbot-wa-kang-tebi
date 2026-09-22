@@ -26,11 +26,12 @@ HANDOVER_KEYWORDS = {"admin", "cs", "manusia"}
 HANDOVER_RESET_HOURS = 24
 FALLBACK_STREAK_FOR_HANDOVER = int(os.environ.get("FALLBACK_STREAK_FOR_HANDOVER", "3"))
 
-# Tier 2 (LLM, dipilih user lewat menu "8. Lainnya"). Base URL Anthropic-compatible
-# (bisa 9router atau api.anthropic.com langsung) -- ganti provider = ganti env var.
-LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://api.anthropic.com")
+# Tier 2 (LLM, dipilih user lewat menu "8. Lainnya"). Default OpenRouter (satu API
+# key, akses banyak model termasuk Claude, format request OpenAI-compatible) --
+# base URL OpenAI-compatible mana pun bisa dipasang di sini tanpa ubah kode.
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://openrouter.ai/api/v1")
 LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
-LLM_MODEL = os.environ.get("LLM_MODEL", "claude-haiku-4-5-20251001")
+LLM_MODEL = os.environ.get("LLM_MODEL", "anthropic/claude-3.5-haiku")
 LLM_MAX_TOKENS = int(os.environ.get("LLM_MAX_TOKENS", "500"))
 LLM_DAILY_CAP = int(os.environ.get("LLM_DAILY_CAP", "10"))
 LLM_MODE_IDLE_MINUTES = int(os.environ.get("LLM_MODE_IDLE_MINUTES", "30"))

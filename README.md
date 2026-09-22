@@ -79,10 +79,12 @@ baru tsb biar gak bikin spreadsheet baru lagi tiap cold start.
    LLM gagal/gak nemu jawaban (`ESCALATE`) -> otomatis diteruskan ke admin (tier 3).
 3. **Human override** — kata `admin`/`cs`/`manusia`, atau auto-eskalasi dari tier 2.
 
-Provider LLM: base URL Anthropic-compatible (`LLM_BASE_URL`), bisa proxy pihak
-ketiga (mis. 9router, satu API key) atau `api.anthropic.com` langsung — ganti
-provider = ganti env var, nol perubahan kode. Kosongin `LLM_API_KEY` buat matiin
-tier 2 total.
+Provider LLM: default **OpenRouter** (`LLM_BASE_URL=https://openrouter.ai/api/v1`,
+satu API key, banyak model termasuk Claude lewat `LLM_MODEL=anthropic/claude-3.5-haiku`).
+Format request/response `app/llm.py` OpenAI-compatible (`/chat/completions`,
+`choices[0].message.content`), jadi provider lain yang OpenAI-compatible juga
+tinggal ganti `LLM_BASE_URL`/`LLM_MODEL`/`LLM_API_KEY`, nol perubahan kode.
+Kosongin `LLM_API_KEY` buat matiin tier 2 total.
 
 Admin kontrol per nomor lewat worksheet `contacts` (kolom auto-dibikin kalau
 belum ada di sheet lama):
