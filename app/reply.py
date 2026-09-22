@@ -10,6 +10,23 @@ def format_answer(faq: dict) -> str:
     return f"{config.BOT_HEADER}\n{body}\n\n{config.BOT_FOOTER}"
 
 
+def format_llm_prompt() -> str:
+    body = (
+        "Oke, silakan tulis pertanyaanmu bebas ya. Ketik \"menu\" kapan aja buat balik "
+        "ke daftar topik."
+    )
+    return f"{config.BOT_HEADER}\n{body}\n\n{config.BOT_FOOTER}"
+
+
+def format_llm_answer(body: str) -> str:
+    return f"{config.BOT_HEADER}\n{body}\n\n{config.BOT_FOOTER}"
+
+
+def format_escalated() -> str:
+    body = "Pertanyaanmu aku teruskan ke admin ya, ditunggu."
+    return f"{config.BOT_HEADER}\n{body}\n\n{config.BOT_FOOTER}"
+
+
 def format_fallback() -> str:
     body = (
         "Maaf, pertanyaanmu belum kami pahami. Coba pilih menu di bawah atau ketik ulang "
