@@ -20,7 +20,6 @@ GOOGLE_SERVICE_ACCOUNT_FILE = os.environ.get("GOOGLE_SERVICE_ACCOUNT_FILE", "")
 # dipakai kalau file gak bisa ikut ke-deploy (gitignored). Kalau diisi, ini yang menang.
 GOOGLE_SERVICE_ACCOUNT_JSON = os.environ.get("GOOGLE_SERVICE_ACCOUNT_JSON", "")
 
-DB_PATH = os.environ.get("DB_PATH", "data/conversation_log.db")
 FAQ_SEED_PATH = os.environ.get("FAQ_SEED_PATH", "data/faq_seed.json")
 
 HANDOVER_KEYWORDS = {"admin", "cs", "manusia"}

@@ -1,26 +1,17 @@
 """Self-check assert-based buat alur inti (matcher + handler + handover).
+Butuh GOOGLE_SHEET_ID + kredensial di .env (pakai spreadsheet dev/test, bukan
+produksi -- logger.py gak ada fallback lokal, full Sheets). Tanpa itu, test
+yang nyentuh logger (handover dkk) di-skip otomatis.
 Jalankan: python tests/test_handler.py
 """
 import os
 import sys
-import tempfile
 
 sys.path.insert(0, os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
-os.environ["DB_PATH"] = os.path.join(tempfile.mkdtemp(), "test_log.db")
+from app import config, handler, matcher, sheets_client  # noqa: E402
 
-from app import config, handler, matcher  # noqa: E402
-
-# app.config mungkin udah ke-import duluan (mis. test_faq_seed.py di-load lebih
-# dulu sama pytest), jadi DB_PATH module-level attr-nya udah ke-freeze ke default
-# sebelum env var di atas ke-set. Force ulang di sini biar test ini gak numpuk
-# data ke data/conversation_log.db beneran.
-config.DB_PATH = os.environ["DB_PATH"]
-# Kalau dev punya .env dengan kredensial Sheets asli, logger bakal pilih backend
-# Sheets (lihat logger._use_sheets()). Test ini harus offline & pakai SQLite,
-# jadi paksa kosong biar gak numpuk data ke Sheets beneran / gagal karena
-# worksheet contacts/log belum dibikin.
-config.GOOGLE_SHEET_ID = ""
+_SHEETS_READY = sheets_client.is_configured()
 
 FAQS = [
     {"id": "TA-001", "category": "tugas_akhir", "trigger_keywords": ["jadwal sidang", "sidang ta"],
@@ -51,6 +42,9 @@ def test_no_match_returns_none():
 
 
 def test_handler_fallback_then_handover_after_streak():
+    if not _SHEETS_READY:
+        print("SKIP test_handler_fallback_then_handover_after_streak: Sheets belum dikonfigurasi")
+        return
     number = "628111000111"
     config.FALLBACK_STREAK_FOR_HANDOVER = 2
     r1 = handler.handle_incoming_message(number, "asdasdasd", FAQS)
@@ -72,6 +66,9 @@ def test_hash_number_normalizes_format_variants():
 
 
 def test_handler_explicit_admin_trigger_skips_bot():
+    if not _SHEETS_READY:
+        print("SKIP test_handler_explicit_admin_trigger_skips_bot: Sheets belum dikonfigurasi")
+        return
     number = "628222000222"
     r1 = handler.handle_incoming_message(number, "admin", FAQS)
     assert r1 is None
@@ -83,6 +80,9 @@ def test_handler_manual_reset_reactivates_ai_before_timeout():
     """Admin bisa reaktivasi AI kapan aja (mis. edit cell `handover` jadi 0 di
     Google Sheets, atau panggil logger.reset_handover langsung) tanpa nunggu
     HANDOVER_RESET_HOURS -- mekanisme ini jalan di samping timeout utama."""
+    if not _SHEETS_READY:
+        print("SKIP test_handler_manual_reset_reactivates_ai_before_timeout: Sheets belum dikonfigurasi")
+        return
     from app import logger
 
     number = "628333000333"
