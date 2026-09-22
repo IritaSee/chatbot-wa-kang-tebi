@@ -1,0 +1,105 @@
+name: Sync Fork with Upstream
+
+# Keeps `master` on this fork up to date with the root repo
+# (https://github.com/IritaSee/chatbot-wa-kang-tebi). Runs on a schedule and
+# can also be triggered manually from the Actions tab.
+
+on:
+  schedule:
+    - cron: "0 */6 * * *" # every 6 hours
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+  issues: write
+
+concurrency:
+  group: sync-upstream
+  cancel-in-progress: false
+
+env:
+  UPSTREAM_REPO: https://github.com/IritaSee/chatbot-wa-kang-tebi.git
+  UPSTREAM_BRANCH: master
+  FORK_BRANCH: master
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout fork
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ env.FORK_BRANCH }}
+          fetch-depth: 0
+
+      - name: Configure git identity
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Add upstream remote
+        run: git remote add upstream "$UPSTREAM_REPO"
+
+      - name: Fetch upstream
+        run: git fetch upstream "$UPSTREAM_BRANCH"
+
+      - name: Check for new upstream commits
+        id: diff
+        run: |
+          if git diff --quiet HEAD "upstream/$UPSTREAM_BRANCH"; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Merge upstream changes
+        if: steps.diff.outputs.changed == 'true'
+        id: merge
+        run: |
+          if git merge --ff-only "upstream/$UPSTREAM_BRANCH"; then
+            echo "conflict=false" >> "$GITHUB_OUTPUT"
+          elif git merge --no-edit "upstream/$UPSTREAM_BRANCH"; then
+            echo "conflict=false" >> "$GITHUB_OUTPUT"
+          else
+            git merge --abort
+            echo "conflict=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Push synced branch
+        if: steps.diff.outputs.changed == 'true' && steps.merge.outputs.conflict == 'false'
+        run: git push origin "HEAD:$FORK_BRANCH"
+
+      - name: Open issue on merge conflict
+        if: steps.merge.outputs.conflict == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const { data: issues } = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: "open",
+              labels: "upstream-sync-conflict",
+            });
+            if (issues.length > 0) return;
+
+            await github.rest.issues.create({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              title: "Upstream sync conflict: manual merge needed",
+              labels: ["upstream-sync-conflict"],
+              body: [
+                `Automatic sync from ${process.env.UPSTREAM_REPO} (\`${process.env.UPSTREAM_BRANCH}\`) `,
+                `could not be merged automatically into \`${process.env.FORK_BRANCH}\` because of a conflict.`,
+                "",
+                "Resolve it manually:",
+                "",
+                "```bash",
+                `git remote add upstream ${process.env.UPSTREAM_REPO}`,
+                `git fetch upstream ${process.env.UPSTREAM_BRANCH}`,
+                `git checkout ${process.env.FORK_BRANCH}`,
+                `git merge upstream/${process.env.UPSTREAM_BRANCH}`,
+                "# resolve conflicts, then:",
+                `git push origin ${process.env.FORK_BRANCH}`,
+                "```",
+              ].join("\n"),
+            });
