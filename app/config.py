@@ -73,6 +73,9 @@ MENU_CATEGORY_BY_NUMBER = {
     "7": "kontak",
 }
 MENU_LLM_OPTION = "8"  # "Lainnya" -> masuk tier 2 (LLM), bukan kategori FAQ
+# User bisa trigger tier 2 pakai angka menu ATAU ketik "lainnya" langsung
+# (gak perlu tau nomornya), dari mode fuzzy manapun.
+MENU_LLM_KEYWORDS = {MENU_LLM_OPTION, "lainnya"}
 
 CATEGORY_LABELS = {
     "tugas_akhir": "Tugas Akhir (jadwal sidang, SOP, panduan, EC, katalog capstone)",

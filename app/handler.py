@@ -46,7 +46,7 @@ def handle_incoming_message(wa_number: str, text: str, faqs: list[dict], name: s
         logger.log_interaction(number_hash, text, None, "menu", response, fallback=False)
         return response
 
-    if lowered == config.MENU_LLM_OPTION:
+    if lowered in config.MENU_LLM_KEYWORDS:
         logger.set_mode(number_hash, "llm", wa_number=wa_number, name=name)
         response = reply.format_llm_prompt()
         logger.log_interaction(number_hash, text, None, "menu", response, fallback=False)
