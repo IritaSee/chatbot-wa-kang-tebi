@@ -11,7 +11,7 @@ _faq_cache: list[dict] | None = None
 
 _SHEET_COLUMNS = [
     "id", "category", "trigger_keywords", "question_examples",
-    "answer", "media_url", "active", "last_updated",
+    "answer", "context", "media_url", "active", "last_updated",
 ]
 
 
@@ -26,6 +26,9 @@ def _row_to_entry(row: dict) -> dict:
             q.strip() for q in str(row.get("question_examples", "")).split(",") if q.strip()
         ],
         "answer": row.get("answer", ""),
+        # Konteks panjang (aturan/pengecualian/detail) buat LLM nalar (tier 2);
+        # answer tetap pendek buat fuzzy/WA. Kosong = aman, LLM_SYSTEM skip field ini.
+        "context": row.get("context", ""),
         "media_url": row.get("media_url", ""),
         "active": str(row.get("active", "true")).strip().lower() in ("true", "1", "yes"),
         "last_updated": row.get("last_updated", ""),
