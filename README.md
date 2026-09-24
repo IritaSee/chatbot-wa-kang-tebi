@@ -55,8 +55,13 @@ fallback ke `GOOGLE_SERVICE_ACCOUNT_FILE` (path file, buat dev lokal aja).
 Contacts/log/handover full Google Sheets
 ## Setup Google Sheets FAQ
 
-Kolom worksheet (header baris pertama): `id, category, trigger_keywords, question_examples, answer, media_url, active, last_updated`.
+Kolom worksheet (header baris pertama): `id, category, trigger_keywords, question_examples, answer, context, media_url, active, last_updated`.
 `trigger_keywords` dan `question_examples` dipisah koma dalam satu cell.
+
+`answer` vs `context`: `answer` jawaban resmi ringkas, dipakai fuzzy (tier 1) & selalu dikirim
+apa adanya ke WA -- jaga tetap pendek. `context` opsional, isi aturan/pengecualian/detail
+prosedur lebih lengkap, cuma dipakai LLM (tier 2, `app/llm.py`) buat menalar pertanyaan yang
+gak persis sama kalimat `answer`. Kosongin `context` kalau gak perlu, aman.
 
 Worksheet `faq`, `contacts`, dan `log` (nama sesuai `GOOGLE_SHEET_WORKSHEET`/
 `GOOGLE_SHEET_CONTACTS_WORKSHEET`/`GOOGLE_SHEET_LOG_WORKSHEET`) dibikin otomatis
