@@ -128,7 +128,7 @@ def answer(text: str, faqs: list[dict]) -> str | None:
         if finish_reason and finish_reason not in ("stop", "end_turn"):
             print(f"[llm] finish_reason gak normal: {finish_reason!r} (kemungkinan jawaban kepotong)")
         body = choices[0]["message"]["content"].strip()
-    except (ValueError, KeyError, IndexError, TypeError) as e:
+    except (ValueError, KeyError, IndexError, TypeError, AttributeError) as e:
         print(f"[llm] response format gak sesuai ekspektasi ({e}): {resp.text[:300]!r}")
         return None
 
