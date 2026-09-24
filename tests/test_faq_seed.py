@@ -11,7 +11,7 @@ from app import config, faq_store  # noqa: E402
 
 REQUIRED_FIELDS = {
     "id", "category", "trigger_keywords", "question_examples",
-    "answer", "media_url", "active", "last_updated",
+    "answer", "context", "media_url", "active", "last_updated",
 }
 
 
@@ -35,6 +35,9 @@ def test_entries_have_required_fields_and_types():
         assert isinstance(entry["question_examples"], list)
         assert isinstance(entry["answer"], str) and entry["answer"], (
             f"entry {entry['id']} answer gak boleh kosong"
+        )
+        assert isinstance(entry["context"], str), (
+            f"entry {entry['id']} context harus string (boleh kosong)"
         )
         assert isinstance(entry["active"], bool)
         assert entry["id"] not in ids, f"id duplikat: {entry['id']}"

@@ -26,6 +26,18 @@ HANDOVER_KEYWORDS = {"admin", "cs", "manusia"}
 HANDOVER_RESET_HOURS = 24
 FALLBACK_STREAK_FOR_HANDOVER = int(os.environ.get("FALLBACK_STREAK_FOR_HANDOVER", "3"))
 
+# Tier 2 (LLM, dipilih user lewat menu "8. Lainnya"). Default OpenRouter (satu API
+# key, akses banyak model termasuk Claude, format request OpenAI-compatible) --
+# base URL OpenAI-compatible mana pun bisa dipasang di sini tanpa ubah kode.
+LLM_BASE_URL = os.environ.get("LLM_BASE_URL", "https://openrouter.ai/api/v1")
+LLM_API_KEY = os.environ.get("LLM_API_KEY", "")
+LLM_MODEL = os.environ.get("LLM_MODEL", "anthropic/claude-3.5-haiku")
+LLM_MAX_TOKENS = int(os.environ.get("LLM_MAX_TOKENS", "500"))
+LLM_DAILY_CAP = int(os.environ.get("LLM_DAILY_CAP", "10"))
+LLM_MODE_IDLE_MINUTES = int(os.environ.get("LLM_MODE_IDLE_MINUTES", "30"))
+MENU_EXIT_KEYWORDS = {"menu", "0"}
+LLM_ESCALATE_MARKER = "ESCALATE"
+
 BOT_HEADER = "*Kang Tebi (bot prodi)*"
 BOT_FOOTER = (
     '_Butuh dibantu manusia? Balas "admin". '
@@ -33,9 +45,22 @@ BOT_FOOTER = (
 )
 # Deskripsi identitas bot, dipakai buat entri FAQ "kamu siapa?" & (fase 2) system prompt LLM.
 BOT_PERSONA = (
-    "Saya Kang Tebi, asisten otomatis Prodi Teknik Biomedis Telkom University. "
+    "Saya Kang Tebi, asisten otomatis Prodi Teknik S1 Biomedis Telkom University. "
     "Saya bantu jawab pertanyaan seputar Tugas Akhir, Sempro, KP, kode etik, surat, "
     "dan info akademik. Kalau butuh dibantu manusia, balas \"admin\"."
+    '''
+    # GAYA BICARA
+    - Santai tapi sopan, kayak kakak tingkat yang ramah dan to the point.
+    - Sapaan: "Kak" untuk lawan bicara, "aku" untuk diri sendiri.
+    - Boleh sesekali pakai sentuhan Sunda ringan ("mangga", "hatur nuhun"),
+    jangan berlebihan.
+    - Singkat: 1–4 kalimat. Pakai daftar bernomor hanya untuk langkah-langkah.
+    - Format WhatsApp saja: *tebal*, _miring_. Jangan pakai heading Markdown (#),
+    tabel, atau link berformat [teks](url); tulis URL apa adanya.
+    - Emoji maksimal 1 per pesan, boleh tidak ada.
+    - Balas dengan bahasa yang dipakai penanya (Indonesia/Inggris).
+    - Tanpa pembuka panjang, tanpa mengulang pertanyaan.
+    '''
 )
 
 MENU_CATEGORY_BY_NUMBER = {
@@ -47,6 +72,7 @@ MENU_CATEGORY_BY_NUMBER = {
     "6": "akademik",
     "7": "kontak",
 }
+MENU_LLM_OPTION = "8"  # "Lainnya" -> masuk tier 2 (LLM), bukan kategori FAQ
 
 CATEGORY_LABELS = {
     "tugas_akhir": "Tugas Akhir (jadwal sidang, SOP, panduan, EC, katalog capstone)",
@@ -60,4 +86,4 @@ CATEGORY_LABELS = {
 
 MAIN_MENU = "\n".join(
     f"{number}. {CATEGORY_LABELS[category]}" for number, category in MENU_CATEGORY_BY_NUMBER.items()
-)
+) + f"\n{MENU_LLM_OPTION}. Lainnya (tanya bebas, dijawab AI)"

@@ -19,7 +19,8 @@
     "answer": "Saya Kang Tebi, asisten otomatis Prodi Teknik Biomedis Telkom University. Saya bantu jawab pertanyaan seputar Tugas Akhir, Sempro, KP, kode etik, surat, dan info akademik. Kalau butuh dibantu manusia, balas \"admin\".",
     "media_url": "",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "TA-001",
@@ -40,7 +41,8 @@
     "answer": "Ini jadwal Sidang Tugas Akhir Periode Agustus 2026, cek link di bawah ya.",
     "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/IQAr8b4TwHvyR7BI2AsaourDAVSTfIcUt8mmFbbJukiIhK8?e=5oburM",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "TA-002",
@@ -61,7 +63,8 @@
     "answer": "Ini SOP Pra & Pasca Sidang TA buat mahasiswa.",
     "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/IQAMAQjq-ZnnT78oL7Sb3YyfAQBDOYBOfLwTWDA-rX0Rey8?e=ESvAiN",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "TA-003",
@@ -81,7 +84,8 @@
     "answer": "Ini Panduan Tugas Akhir lengkapnya.",
     "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/EVjky-LKIWpMomDgjPihRxsBBlx_Ncz99AZW1oi2F2y5zg?e=0UtxI4",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "TA-004",
@@ -101,7 +105,8 @@
     "answer": "Ini Surat Edaran Penggunaan Ethical Clearance (EC).",
     "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/EUmLPldRYbNCsT8Qq2LnZLABy2SCpt8HQYmqOQSF6YTVlw?e=03lBej",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "TA-005",
@@ -119,7 +124,8 @@
     "answer": "Ini Katalog Capstone Desain TB Semester Genap 2024/2025.",
     "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/EWeaM3057BJDuHFtLIZ_wAUB5RneAJBbhr2g-8B67VqL3A?e=VDywzg",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "TA-006",
@@ -135,7 +141,8 @@
     "answer": "Ini Katalog Capstone Desain TB Semester Ganjil 2024/2025.",
     "media_url": "http://bit.ly/KatalogCDTBGanjil2425",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "SPR-001",
@@ -155,7 +162,8 @@
     "answer": "Ini SOP Mahasiswa Pra & Pasca Sempro TA Semester Ganjil 2025/2026.",
     "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/IQAV2nZaFVvRRaNB0toExh2eAajvxwfSMrF1G1gIs4oMttk?e=1xCMac",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": "[CONTOH -- ganti dengan isi SOP asli dari PDF di media_url sebelum dipakai]\nSYARAT DAFTAR SEMPRO: min. 100 SKS lulus, IPK >= 2.00, TA sudah diterima pembimbing, tidak ada tunggakan biaya.\nALUR PRA-SEMPRO: (1) isi form di SIAKAD, (2) unggah draf bab 1-3 + ACC pembimbing, (3) prodi jadwalkan maks. 7 hari kerja, (4) jadwal diumumkan di grup angkatan.\nPASCA-SEMPRO: revisi diserahkan maks. 14 hari setelah sidang, ACC penguji + pembimbing. Lewat 14 hari, sempro dinyatakan gugur dan harus daftar ulang semester berikutnya.\nPENGECUALIAN: SKS kurang dari 100 tapi mata kuliah sisa sedang ditempuh semester berjalan -> boleh daftar dengan surat rekomendasi dosen wali. Pembimbing sedang tugas belajar/cuti -> hubungi koordinator TA untuk pembimbing pengganti, jangan menunggu."
   },
   {
     "id": "KP-001",
@@ -175,7 +183,8 @@
     "answer": "Ini Panduan Kerja Praktik (KP).",
     "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/ERlnxHF-kRZLsE_LpkcZY8sB5gUzWikA-be0M26DlWmfmA?e=QHlhOR",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "ETIK-001",
@@ -193,7 +202,8 @@
     "answer": "Ini link buat Pelaporan Pelanggaran Kode Etik.",
     "media_url": "https://bit.ly/laporanetikTB",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "ETIK-002",
@@ -210,7 +220,8 @@
     "answer": "Ini Prosedur & Regulasi Penanganan Pelanggaran Kode Etik Mahasiswa.",
     "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/IQCp1ynV4aXqQ5ByuzJW5rIxAWNtW9Iyr9aIiI3R1cg_g9E?e=CuPH52",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "SRT-001",
@@ -229,7 +240,8 @@
     "answer": "Isi formulir pengajuan surat prodi di sini.",
     "media_url": "https://forms.office.com/r/j11sR1vEfF",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": "[CONTOH -- ganti dengan aturan asli prodi sebelum dipakai]\nJENIS SURAT: pengantar KP/magang, keterangan aktif kuliah, izin pengambilan data penelitian, rekomendasi beasiswa, keterangan lulus sementara.\nPROSES: ajukan via formulir, diverifikasi admin prodi, tanda tangan Kaprodi. Selesai 3 hari kerja. Surat ber-kop + nomor resmi, diambil di ruang prodi atau dikirim PDF.\nYANG WAJIB DISIAPKAN: NIM, nama lengkap sesuai KTM, tujuan surat (nama instansi + alamat lengkap), tanggal dibutuhkan.\nCATATAN: surat pengantar KP butuh nama pembimbing lapangan dan periode magang. Surat izin ambil data butuh judul TA + nama pembimbing. Permintaan mendadak (<3 hari) tidak dijamin."
   },
   {
     "id": "AKD-001",
@@ -246,7 +258,8 @@
     "answer": "Ini Pedoman Penggunaan AI dari prodi.",
     "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:f:/g/personal/proditbtelu_telkomuniversity_ac_id/EhSKfjeJ_NpBmrQYv5J-XWABsuV9MrWFYf3DuCmihofeRA?e=LY4IRI",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "AKD-002",
@@ -263,7 +276,8 @@
     "answer": "Ini Surat Edaran 10 Menit Literasi Prodi Teknik Biomedis.",
     "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/EWU5vhCfq6xCuXoS4zxfmE8BL9CjOeJryoI-YyMJefk9fQ?e=IFcdgc",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "AKD-003",
@@ -280,7 +294,8 @@
     "answer": "Ini Petunjuk Teknis Pembelajaran Literasi.",
     "media_url": "https://telkomuniversityofficial-my.sharepoint.com/:b:/g/personal/proditbtelu_telkomuniversity_ac_id/EfNTObBS6uhMmBG-5iR66HEBHW613j5pnszMDODkMBYUSg?e=hIjyXR",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "KTK-001",
@@ -300,7 +315,8 @@
     "answer": "Bisa langsung hubungi Kang Tebi (Admin) di wa.me/62811102585.",
     "media_url": "",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "KTK-002",
@@ -317,7 +333,8 @@
     "answer": "Website resmi Prodi Teknik Biomedis: bbe.telkomuniversity.ac.id",
     "media_url": "",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "KTK-003",
@@ -334,7 +351,8 @@
     "answer": "Instagram resmi: instagram.com/s1teknikbiomedis_telu",
     "media_url": "",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   },
   {
     "id": "KTK-004",
@@ -350,6 +368,7 @@
     "answer": "YouTube resmi: youtube.com/@biomedis.telkomuniversity",
     "media_url": "",
     "active": true,
-    "last_updated": "2026-09-07"
+    "last_updated": "2026-09-07",
+    "context": ""
   }
 ]

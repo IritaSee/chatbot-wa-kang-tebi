@@ -13,6 +13,7 @@ from app import config, sheets_client
 _CONTACTS_COLUMNS = [
     "wa_number", "wa_number_hash", "name", "first_seen", "last_seen", "message_count",
     "handover", "handover_since", "handover_reason", "fallback_streak",
+    "mode", "mode_since", "llm_count", "llm_date", "bot_enabled", "llm_enabled",
 ]
 
 _LOG_COLUMNS = [
@@ -21,8 +22,28 @@ _LOG_COLUMNS = [
 ]
 
 
+_header_migrated = False  # cache in-memory: cek/migrasi header sekali per cold start, bukan tiap request
+
+
+def _ensure_header_columns(ws, columns: list[str]) -> None:
+    """Sheet lama (dibikin sebelum kolom baru ditambah ke _CONTACTS_COLUMNS) punya
+    header row yang lebih pendek -- tambahin kolom yang belum ada di ujung kanan
+    daripada crash/ilang datanya. Sekali per proses (lihat _header_migrated), biar
+    gak nambah 1 API read tiap request dan kena rate limit Sheets."""
+    global _header_migrated
+    if _header_migrated:
+        return
+    current = ws.row_values(1)
+    missing = [c for c in columns if c not in current]
+    if missing:
+        ws.update(f"{chr(ord('A') + len(current))}1", [missing])
+    _header_migrated = True
+
+
 def _contacts_ws():
-    return sheets_client.worksheet(config.GOOGLE_SHEET_CONTACTS_WORKSHEET, header=_CONTACTS_COLUMNS)
+    ws = sheets_client.worksheet(config.GOOGLE_SHEET_CONTACTS_WORKSHEET, header=_CONTACTS_COLUMNS)
+    _ensure_header_columns(ws, _CONTACTS_COLUMNS)
+    return ws
 
 
 def _log_ws():
@@ -31,7 +52,10 @@ def _log_ws():
 
 def _find_contact_row(ws, wa_number_hash: str) -> tuple[int | None, dict]:
     """Return (row_number 1-based di sheet, dict record) atau (None, {}) kalau belum ada."""
-    records = ws.get_all_records()
+    # expected_headers eksplisit: sheet lama bisa punya kolom kosong nyisa di kanan
+    # (mis. abis resize/hapus kolom manual) -> tanpa ini gspread crash
+    # "header row contains duplicates: ['']" pas nemu >1 header kosong.
+    records = ws.get_all_records(expected_headers=_CONTACTS_COLUMNS)
     for i, row in enumerate(records, start=2):  # baris 1 = header
         if str(row.get("wa_number_hash")) == wa_number_hash:
             return i, row
@@ -84,6 +108,12 @@ def upsert_contact(wa_number: str, wa_number_hash: str, name: str, timestamp: st
         "handover_since": existing.get("handover_since", ""),
         "handover_reason": existing.get("handover_reason", ""),
         "fallback_streak": existing.get("fallback_streak", 0),
+        "mode": existing.get("mode", ""),
+        "mode_since": existing.get("mode_since", ""),
+        "llm_count": existing.get("llm_count", 0),
+        "llm_date": existing.get("llm_date", ""),
+        "bot_enabled": existing.get("bot_enabled", ""),
+        "llm_enabled": existing.get("llm_enabled", ""),
     }
     values.update(overrides)
     _write_contact_row(ws, row_number, values)
