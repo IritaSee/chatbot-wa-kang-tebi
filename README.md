@@ -5,7 +5,9 @@
 - `app/main.py` — FastAPI app, endpoint `POST /webhook` (dipanggil Fonnte).
 - `app/handler.py` — orkestrasi alur pesan (menu/keyword/fuzzy match, fallback, handover).
 - `app/matcher.py` — matching pakai `rapidfuzz` (threshold `MATCH_THRESHOLD`), tier 1.
-- `app/llm.py` — tier 2, jawab bebas via LLM (menu "8. Lainnya"), dibatasi ke isi FAQ.
+- `app/llm.py` — tier 2, jawab bebas via LLM. Otomatis jadi default kalau fuzzy gak
+  yakin (skor < `MATCH_THRESHOLD`); menu "8. Lainnya"/"lainnya" juga masih bisa buat
+  mode "always AI" manual. Dibatasi ke isi FAQ + kuota harian.
 - `app/faq_store.py` — load FAQ dari Google Sheets (`gspread`), fallback ke `data/faq_seed.json`.
 - `app/logger.py` — conversation log + handover state, full Google Sheets (`sheets_store.py`), wajib dikonfigurasi.
 - `app/wa_client.py` — kirim balasan via Fonnte API.
