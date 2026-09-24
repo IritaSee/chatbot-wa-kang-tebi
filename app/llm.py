@@ -16,6 +16,16 @@ import requests
 
 from app import config
 
+# Model-agnostic: nama tag reasoning beda-beda antar model open-weight yang suka
+# lolos ke `content` (bukan field `reasoning` terpisah) -- DeepSeek-R1/QwQ/Nemotron
+# pakai <think>, sebagian lain <thinking>/<reasoning>/<reflection>. Bukan daftar
+# lengkap semua model, tapi nutupin varian yang umum ditemui di provider OpenAI-
+# compatible (OpenRouter dkk).
+_THINK_TAG_NAMES = ("think", "thinking", "reasoning", "reflection")
+_THINK_TAGS_ALT = "|".join(_THINK_TAG_NAMES)
+_THINK_BLOCK_RE = re.compile(rf"<({_THINK_TAGS_ALT})>.*?</\1>", re.DOTALL | re.IGNORECASE)
+_THINK_OPEN_RE = re.compile(rf"<(?:{_THINK_TAGS_ALT})>", re.IGNORECASE)
+
 _SYSTEM_TEMPLATE = """detailed thinking off
 
 {persona}
@@ -132,13 +142,21 @@ def answer(text: str, faqs: list[dict]) -> str | None:
         print(f"[llm] response format gak sesuai ekspektasi ({e}): {resp.text[:300]!r}")
         return None
 
-    # Jaring pengaman: model reasoning (mis. Nemotron) kadang tetap nyelipin
-    # <think>...</think> di content walau "detailed thinking off" diminta di
-    # system prompt -- instruksi gak 100% dipatuhi. Buang sebelum dikirim ke user.
-    stripped = re.sub(r"<think>.*?</think>", "", body, flags=re.DOTALL).strip()
+    # Jaring pengaman: model reasoning (mis. DeepSeek-R1/QwQ/Nemotron) kadang
+    # tetap nyelipin block reasoning di content walau "detailed thinking off"
+    # diminta di system prompt -- instruksi gak 100% dipatuhi, dan nama tag beda-
+    # beda antar model. Buang sebelum dikirim ke user.
+    stripped = _THINK_BLOCK_RE.sub("", body).strip()
     if stripped != body:
-        print(f"[llm] WARNING: model nyelipin <think> block, di-strip (before_len={len(body)} after_len={len(stripped)})")
+        print(f"[llm] WARNING: model nyelipin reasoning block, di-strip (before_len={len(body)} after_len={len(stripped)})")
         body = stripped
+
+    if _THINK_OPEN_RE.search(body):
+        # Tag kebuka tapi gak ketutup -> reasoning kepotong duluan sebelum sempat
+        # nulis jawaban final (biasanya kena limit LLM_MAX_TOKENS). Sisa content
+        # cuma analisis mentah, bukan jawaban buat user -- treat sebagai gagal.
+        print(f"[llm] reasoning tag gak ketutup (kemungkinan kepotong max_tokens={config.LLM_MAX_TOKENS}), treat sebagai gagal: {body[:200]!r}")
+        return None
 
     if not body:
         print("[llm] model balas string kosong, treat sebagai eskalasi")
