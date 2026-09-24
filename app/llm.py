@@ -48,7 +48,7 @@ Gunakan juga [HANDOVER] kalau:
 - Jangan meminta data pribadi sensitif (password, NIK, nomor rekening).
 
 # FAQ
-{{FAQ_JSON}}
+{faqs_json}
 
 Kalau pertanyaan user gak ada dasarnya di FAQ (answer maupun context) di atas,
 jangan mengarang -- balas PERSIS satu kata: {escalate_marker}
@@ -73,7 +73,10 @@ def _build_system_prompt(faqs: list[dict]) -> str:
 def answer(text: str, faqs: list[dict]) -> str | None:
     """Return jawaban LLM, atau None kalau gagal/gak ada dasarnya (caller eskalasi)."""
     if not config.LLM_API_KEY:
+        print("[llm] LLM_API_KEY kosong, skip")
         return None
+
+    print(f"[llm] panggil model={config.LLM_MODEL} base_url={config.LLM_BASE_URL} faqs={len(faqs)} text_len={len(text)}")
 
     try:
         resp = requests.post(
@@ -92,12 +95,47 @@ def answer(text: str, faqs: list[dict]) -> str | None:
             },
             timeout=15,
         )
-        resp.raise_for_status()
-        body = resp.json()["choices"][0]["message"]["content"].strip()
-    except Exception as e:  # network/timeout/HTTP/parsing -- semua jalur gagal sama: eskalasi
-        print(f"[llm] gagal manggil LLM: {e}")
+    except requests.Timeout:
+        print("[llm] timeout manggil LLM (>15s)")
+        return None
+    except requests.ConnectionError as e:
+        print(f"[llm] koneksi ke LLM_BASE_URL gagal: {e}")
+        return None
+    except requests.RequestException as e:
+        print(f"[llm] request error: {e}")
+        return None
+
+    if not resp.ok:
+        # 401/403 = API key salah/expired, 429 = rate limit/kredit habis, 5xx = provider down
+        print(f"[llm] HTTP {resp.status_code} dari LLM: {resp.text[:300]!r}")
+        return None
+
+    try:
+        data = resp.json()
+        choices = data.get("choices") or []
+        if not choices:
+            print(f"[llm] response gak ada 'choices' (mungkin filtered/error terbungkus 200): {data!r}"[:400])
+            return None
+        finish_reason = choices[0].get("finish_reason")
+        if finish_reason and finish_reason not in ("stop", "end_turn"):
+            print(f"[llm] finish_reason gak normal: {finish_reason!r} (kemungkinan jawaban kepotong)")
+        body = choices[0]["message"]["content"].strip()
+    except (ValueError, KeyError, IndexError, TypeError) as e:
+        print(f"[llm] response format gak sesuai ekspektasi ({e}): {resp.text[:300]!r}")
+        return None
+
+    if not body:
+        print("[llm] model balas string kosong, treat sebagai eskalasi")
         return None
 
     if body == config.LLM_ESCALATE_MARKER:
+        print("[llm] model balas ESCALATE (sesuai instruksi, gak ada dasar di FAQ)")
         return None
+
+    if config.LLM_ESCALATE_MARKER in body:
+        # marker nyempil di tengah kalimat, bukan exact match -> instruksi gak diikuti persis,
+        # tetap dijawab (caller yang decide), tapi ini sinyal prompt/model perlu dicek.
+        print(f"[llm] WARNING: token ESCALATE nyempil di jawaban (bukan exact match): {body[:200]!r}")
+
+    print(f"[llm] ok model={config.LLM_MODEL} len={len(body)}")
     return body
